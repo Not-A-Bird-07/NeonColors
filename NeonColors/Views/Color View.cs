@@ -33,10 +33,8 @@ namespace NeonColors.Views
 
             string filePath = Path.Combine(directoryPath, "Colors.json");
 
-            // Read existing data from JSON file
             List<SaveToJson> existingData = ColorSaveCommand.ReadExistingData(filePath);
 
-            // Populate the dictionary with the data from JSON file
             PopulateColorsDictionary(existingData);
 
             colorKeys = new List<string>(Colors.Keys);
@@ -65,8 +63,10 @@ namespace NeonColors.Views
 
         private void RedrawHeader(StringBuilder str)
         {
+            str.BeginCenter();
             str.BeginColor("ffffff50").Append("=== ").EndColor();
             str.Append($"Colors (Page {currentPage + 1}/{GetTotalPages()})").BeginColor("ffffff50").Append(" ===").EndColor().AppendLine();
+            str.EndAlign();
         }
 
         private void RedrawColors(StringBuilder str)
@@ -76,14 +76,12 @@ namespace NeonColors.Views
 
             for (int i = start; i < end; i++)
             {
+                str.BeginCenter();
                 if (i == currentIndex)
                 {
-                    str.Append("> "); // Add indicator for the selected color
-                    str.BeginColor("ffff00"); // Highlight color
-                }
-                else
-                {
-                    str.Append("  "); // Add spacing for unselected colors
+                    str.Append(">");
+                    string hexColor = ConvertToHexColor(Colors[colorKeys[i]]);
+                    str.BeginColor(hexColor);
                 }
 
                 str.AppendLine($"{colorKeys[i]}");
@@ -92,7 +90,20 @@ namespace NeonColors.Views
                 {
                     str.EndColor();
                 }
+                str.EndAlign();
             }
+        }
+
+        public string ConvertToHexColor(string colors)
+        {
+            string[] rgb = colors.Split(',');
+            if (rgb.Length != 3) return "FFFFFF";
+
+            if (float.TryParse(rgb[0], out float r) && float.TryParse(rgb[1], out float g) && float.TryParse(rgb[2], out float b))
+            {
+                return ColorUtility.ToHtmlStringRGB(new Color(r, g, b));
+            }
+            return "FFFFFF";
         }
 
         private int GetTotalPages()
@@ -137,16 +148,26 @@ namespace NeonColors.Views
                 string selectedKey = colorKeys[currentIndex];
                 string selectedColor = Colors[selectedKey];
 
-                string[] rgb = selectedColor.Split(',');
-
-                float r = float.Parse(rgb[0]);
-                float g = float.Parse(rgb[1]);
-                float b = float.Parse(rgb[2]);
-
-                BaseGameInterface.SetColor(r, g, b);
-
-                Debug.Log($"Setting color: {selectedKey} with value {selectedColor}");
+                if (TryParseColor(selectedColor, out Color color))
+                {
+                    BaseGameInterface.SetColor(color.r, color.g, color.b);
+                    Debug.Log($"Setting color: {selectedKey} with value {selectedColor}");
+                }
             }
+        }
+
+        bool TryParseColor(string colorString, out Color color)
+        {
+            color = Color.white;
+            string[] rgb = colorString.Split(',');
+
+            if (rgb.Length != 3) return false;
+            if (float.TryParse(rgb[0], out float r) && float.TryParse(rgb[1], out float g) && float.TryParse(rgb[2], out float b))
+            {
+                color = new Color(r, g, b);
+                return true;
+            }
+            return false;
         }
 
         void MoveDown()
@@ -154,7 +175,15 @@ namespace NeonColors.Views
             if (currentIndex < colorKeys.Count - 1)
             {
                 currentIndex++;
-                Redraw();
+                if (currentIndex >= (currentPage + 1) * ColorsPerPage)
+                {
+                    currentPage++;
+                    Redraw();
+                }
+                else
+                {
+                    Redraw();
+                }
             }
         }
 
@@ -163,7 +192,16 @@ namespace NeonColors.Views
             if (currentIndex > 0)
             {
                 currentIndex--;
-                Redraw();
+                if (currentIndex < currentPage * ColorsPerPage)
+                {
+                    currentPage--;
+                    currentIndex = Mathf.Min(currentPage * ColorsPerPage + (ColorsPerPage - 1), colorKeys.Count - 1);
+                    Redraw();
+                }
+                else
+                {
+                    Redraw();
+                }
             }
         }
 
