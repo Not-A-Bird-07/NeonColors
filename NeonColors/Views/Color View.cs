@@ -18,6 +18,8 @@ namespace NeonColors.Views
         private int currentIndex = 0;
         private int currentPage = 0;
         private List<string> colorKeys;
+        public static string DirectoryPath = Path.Combine(BepInEx.Paths.PluginPath, "NeonColors", "Colors");
+        public static string FilePath = Path.Combine(DirectoryPath, "Colors.json");
 
         public override void OnShow(object[] args)
         {
@@ -25,15 +27,12 @@ namespace NeonColors.Views
 
             Colors.Clear();
 
-            string directoryPath = Path.Combine(BepInEx.Paths.PluginPath, "NeonColors", "Colors");
-            if (!Directory.Exists(directoryPath))
+            if (!Directory.Exists(DirectoryPath))
             {
-                Directory.CreateDirectory(directoryPath);
+                Directory.CreateDirectory(DirectoryPath);
             }
 
-            string filePath = Path.Combine(directoryPath, "Colors.json");
-
-            List<SaveToJson> existingData = ColorSaveCommand.ReadExistingData(filePath);
+            List<SaveToJson> existingData = ColorSaveCommand.ReadExistingData(FilePath);
 
             PopulateColorsDictionary(existingData);
 
@@ -138,6 +137,10 @@ namespace NeonColors.Views
                 case EKeyboardKey.Right:
                     NextPage();
                     break;
+
+                case EKeyboardKey.Option1:
+                    RemoveColor();
+                    break;
             }
         }
 
@@ -223,6 +226,42 @@ namespace NeonColors.Views
                 currentIndex = currentPage * ColorsPerPage;
                 Redraw();
             }
+        }
+
+        void RemoveColor()
+        {
+            if (currentIndex >= 0 && currentIndex < colorKeys.Count)
+            {
+                string keyToRemove = colorKeys[currentIndex];
+                Colors.Remove(keyToRemove);
+                colorKeys.RemoveAt(currentIndex);
+
+                List<SaveToJson> existingData = ColorSaveCommand.ReadExistingData(FilePath);
+                SaveToJson itemToRemove = existingData.Find(item => item.Name.ToUpper() == keyToRemove);
+                if (itemToRemove != null)
+                {
+                    existingData.Remove(itemToRemove);
+                    SaveDataToFile(existingData, FilePath);
+                }
+
+                if (currentIndex >= colorKeys.Count)
+                {
+                    currentIndex = colorKeys.Count - 1;
+                }
+
+                if (currentPage * ColorsPerPage >= colorKeys.Count && currentPage > 0)
+                {
+                    currentPage--;
+                }
+
+                Redraw();
+            }
+        }
+
+        void SaveDataToFile(List<SaveToJson> data, string filePath)
+        {
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(filePath, json);
         }
     }
 }
