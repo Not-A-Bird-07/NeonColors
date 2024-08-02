@@ -1,7 +1,6 @@
 ﻿using BepInEx;
 using Bepinject;
 using HarmonyLib;
-using System;
 using System.Reflection;
 
 namespace NeonColors

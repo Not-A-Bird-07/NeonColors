@@ -1,5 +1,4 @@
-﻿
-namespace NeonColors
+﻿namespace NeonColors
 {
     internal class PluginInfo
     {

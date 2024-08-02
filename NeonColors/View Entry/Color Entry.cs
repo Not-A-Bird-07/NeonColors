@@ -1,8 +1,6 @@
 ﻿using ComputerInterface.Interfaces;
 using NeonColors.Views;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NeonColors.View_Entry
 {

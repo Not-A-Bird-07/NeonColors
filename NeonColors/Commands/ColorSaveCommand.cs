@@ -1,7 +1,5 @@
 ﻿using ComputerInterface;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Zenject;
 using Newtonsoft.Json;
 using System.IO;
@@ -22,8 +20,6 @@ namespace NeonColors.Commands
         {
             _commandTokens = new List<CommandToken>();
 
-            // Add a command
-            // You can pass null in argumentsType if you aren't expecting any
             RegisterCommand(new Command(name: "savecolor", argumentTypes: new[] { typeof(string) }, args =>
             {
                 string filePath = Path.Combine(BepInEx.Paths.PluginPath, "NeonColors", "Colors", "Colors.json");
@@ -41,6 +37,7 @@ namespace NeonColors.Commands
                 string json = JsonConvert.SerializeObject(existingData.ToArray(), Formatting.Indented);
                 if(!File.Exists(filePath))
                     File.Create(filePath);
+
                 File.WriteAllText(filePath, json);
                 return "Saved Color";
             }));
