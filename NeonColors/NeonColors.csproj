@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-	<LangVersion>9.0</LangVersion>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -25,7 +25,7 @@
 			<HintPath>$(BepInExAssemblyPath)\BepInEx.Harmony.dll</HintPath>
 		</Reference>
 		<Reference Include="Bepinject">
-		  <HintPath>..\..\..\..\..\..\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\BepInEx\plugins\Bepinject-Auros\Bepinject.dll</HintPath>
+		  <HintPath>$(PluginsPath)\Bepinject-Auros\Bepinject.dll</HintPath>
 		</Reference>
 		<Reference Include="Cinemachine">
 			<HintPath>$(GameAssemblyPath)\Cinemachine.dll</HintPath>
@@ -36,17 +36,29 @@
 		<Reference Include="ComputerInterface.Commands">
 		  <HintPath>$(PluginsPath)\ComputerInterface.Commands\ComputerInterface.Commands.dll</HintPath>
 		</Reference>
-		<Reference Include="GorillaInfoWatch">
-		  <HintPath>$(PluginsPath)\GorillaInfoWatch\GorillaInfoWatch.dll</HintPath>
+		<Reference Include="MMHOOK_Assembly-CSharp">
+		  <HintPath>..\..\..\..\..\run\media\notabird\fast\SteamLibrary\steamapps\common\Gorilla Tag\BepInEx\plugins\MMHOOK\Managed\MMHOOK_Assembly-CSharp.dll</HintPath>
 		</Reference>
-		<Reference Include="MonkeNotificationLib">
-		  <HintPath>$(PluginsPath)\MonkeNotificationLib\MonkeNotificationLib.dll</HintPath>
+		<Reference Include="Mono.Cecil">
+		  <HintPath>..\..\..\..\..\run\media\notabird\fast\SteamLibrary\steamapps\common\Gorilla Tag\BepInEx\core\Mono.Cecil.dll</HintPath>
+		</Reference>
+		<Reference Include="Mono.Cecil.Mdb">
+		  <HintPath>..\..\..\..\..\run\media\notabird\fast\SteamLibrary\steamapps\common\Gorilla Tag\BepInEx\core\Mono.Cecil.Mdb.dll</HintPath>
+		</Reference>
+		<Reference Include="Mono.Cecil.Pdb">
+		  <HintPath>..\..\..\..\..\run\media\notabird\fast\SteamLibrary\steamapps\common\Gorilla Tag\BepInEx\core\Mono.Cecil.Pdb.dll</HintPath>
+		</Reference>
+		<Reference Include="Mono.Cecil.Rocks">
+		  <HintPath>..\..\..\..\..\run\media\notabird\fast\SteamLibrary\steamapps\common\Gorilla Tag\BepInEx\core\Mono.Cecil.Rocks.dll</HintPath>
 		</Reference>
 		<Reference Include="Mono.Security">
 			<HintPath>$(GameAssemblyPath)\Mono.Security.dll</HintPath>
 		</Reference>
+		<Reference Include="MonoMod.Utils">
+		  <HintPath>..\..\..\..\..\run\media\notabird\fast\SteamLibrary\steamapps\common\Gorilla Tag\BepInEx\core\MonoMod.Utils.dll</HintPath>
+		</Reference>
 		<Reference Include="Newtonsoft.Json">
-		  <HintPath>..\..\..\..\..\..\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\Gorilla Tag_Data\Managed\Newtonsoft.Json.dll</HintPath>
+		  <HintPath>$(GameAssemblyPath)\Newtonsoft.Json.dll</HintPath>
 		</Reference>
 		<Reference Include="Oculus.Platform">
 			<HintPath>$(GameAssemblyPath)\Oculus.Platform.dll</HintPath>
@@ -77,9 +89,6 @@
 		</Reference>
 		<Reference Include="PlayFab">
 			<HintPath>$(GameAssemblyPath)\PlayFab.dll</HintPath>
-		</Reference>
-		<Reference Include="ScoreboardAttributes">
-		  <HintPath>$(PluginsPath)\ScoreboardAttributes\ScoreboardAttributes.dll</HintPath>
 		</Reference>
 		<Reference Include="System.EnterpriseServices">
 			<HintPath>$(GameAssemblyPath)\System.EnterpriseServices.dll</HintPath>
@@ -298,10 +307,10 @@
 			<HintPath>$(GameAssemblyPath)\websocket-sharp.dll</HintPath>
 		</Reference>
 		<Reference Include="Zenject">
-		  <HintPath>..\..\..\..\..\..\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\BepInEx\plugins\Extenject\Zenject.dll</HintPath>
+		  <HintPath>$(PluginsPath)\Extenject\Zenject.dll</HintPath>
 		</Reference>
 		<Reference Include="Zenject-usage">
-		  <HintPath>..\..\..\..\..\..\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\BepInEx\plugins\Extenject\Zenject-usage.dll</HintPath>
+		  <HintPath>$(PluginsPath)\Extenject\Zenject-usage.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 

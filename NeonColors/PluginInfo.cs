@@ -4,6 +4,6 @@
     {
         public const string Guid = "NOTABIRD.COLOR.PICKER",
                             Name = "COLOR PICKER",
-                            Version = "1.0.1";
+                            Version = "1.0.2";
     }
 }

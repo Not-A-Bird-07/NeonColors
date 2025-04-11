@@ -26,9 +26,16 @@ namespace NeonColors.Commands
 
                 List<SaveToJson> existingData = ReadExistingData(filePath);
 
+                string name = "";
+                
+                for (int i = 0; i < args.Length; i++)
+                {
+                    name += args[i] + " ";
+                }
+
                 existingData.Add(new SaveToJson()
                 {
-                    Name = (string)args[0],
+                    Name = name,
                     R = GorillaTagger.Instance.offlineVRRig.playerColor.r,
                     G = GorillaTagger.Instance.offlineVRRig.playerColor.g,
                     B = GorillaTagger.Instance.offlineVRRig.playerColor.b,
